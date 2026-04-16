@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.orderpay.infrastructure.mapper.OrderMapper">
+
+    <resultMap id="BaseResultMap" type="com.orderpay.infrastructure.entity.OrderDO">
+        <id column="id" property="id"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="user_id" property="userId"/>
+        <result column="total_amount" property="totalAmount"/>
+        <result column="status" property="status"/>
+        <result column="pay_timeout_at" property="payTimeoutAt"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="create_by" property="createBy"/>
+        <result column="update_by" property="updateBy"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, order_no, user_id, total_amount, status, pay_timeout_at, created_at, updated_at,
+        is_deleted, create_by, update_by
+    </sql>
+
+    <select id="selectByOrderNo" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM orders
+        WHERE order_no = #{orderNo}
+          AND is_deleted = 0
+    </select>
+
+    <update id="updateStatus">
+        UPDATE orders
+        SET status = #{status},
+            updated_at = NOW(),
+            update_by = #{updateBy}
+        WHERE id = #{id}
+          AND is_deleted = 0
+    </update>
+
+</mapper>

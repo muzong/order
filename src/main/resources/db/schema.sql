@@ -1,0 +1,37 @@
+-- 库存表
+CREATE TABLE IF NOT EXISTS inventory (
+    id BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+    sku_id VARCHAR(64) NOT NULL COMMENT 'SKU编号',
+    total_stock BIGINT NOT NULL DEFAULT 0 COMMENT '总库存量',
+    locked_stock BIGINT NOT NULL DEFAULT 0 COMMENT '预占库存量',
+    sold_stock BIGINT NOT NULL DEFAULT 0 COMMENT '已售库存量',
+    unit_price DECIMAL(18,2) NOT NULL DEFAULT 0.00 COMMENT '单价',
+    is_deleted TINYINT NOT NULL DEFAULT 0 COMMENT '逻辑删除: 0-否, 1-是',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    create_by BIGINT DEFAULT NULL COMMENT '创建人ID',
+    update_by BIGINT DEFAULT NULL COMMENT '更新人ID',
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_sku_id (sku_id),
+    KEY idx_sku_id (sku_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='库存表';
+
+-- 库存锁定表
+CREATE TABLE IF NOT EXISTS inventory_lock (
+    id BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+    lock_id VARCHAR(64) NOT NULL COMMENT '锁定ID',
+    sku_id VARCHAR(64) NOT NULL COMMENT 'SKU编号',
+    locked_qty BIGINT NOT NULL COMMENT '锁定数量',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    expire_at DATETIME NOT NULL COMMENT '过期时间',
+    is_deleted TINYINT NOT NULL DEFAULT 0 COMMENT '逻辑删除: 0-否, 1-是',
+    created_at_field DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间字段',
+    updated_at_field DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间字段',
+    create_by BIGINT DEFAULT NULL COMMENT '创建人ID',
+    update_by BIGINT DEFAULT NULL COMMENT '更新人ID',
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_lock_id (lock_id),
+    KEY idx_sku_id (sku_id),
+    KEY idx_expire_at (expire_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='库存锁定表';
+

@@ -1,0 +1,22 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/orderpay_dev?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: root
+  redis:
+    host: localhost
+    port: 6379
+    password: 
+  rocketmq:
+    name-server: localhost:9876
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+logging:
+  level:
+    com.orderpay: DEBUG

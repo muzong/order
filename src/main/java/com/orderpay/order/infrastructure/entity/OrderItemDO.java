@@ -1,0 +1,22 @@
+package com.orderpay.order.infrastructure.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class OrderItemDO {
+    private Long id;
+    private Long orderId;
+    private String productId;
+    private String productName;
+    private BigDecimal price;
+    private Integer quantity;
+    private BigDecimal amount;
+}
